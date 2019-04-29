@@ -1,0 +1,23 @@
+application complexities
+schedule
+budgetary constraints
+customer expectations
+not parallaxBackgroundVertical
+constraints
+picked at random
+domain knowledge and prior experiences
+defects leaking in to production
+dissatisfaction
+perception of poor product quality
+effectiveness of testing
+benefits delivered
+business plans
+business rules
+critical
+end-to-end testing
+regression testing
+come to the conclusion
+effort
+risk
+compromising on testing quality
+achieve breakthrough business results
