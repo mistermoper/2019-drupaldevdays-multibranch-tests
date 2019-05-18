@@ -1,0 +1,87 @@
+def LAST_STAGE
+
+pipeline {
+  agent any
+
+  options {
+    disableConcurrentBuilds()
+    ansiColor('xterm')
+  }
+
+  stages {
+
+    stage('Docker') {
+      steps {
+        sh "docker-compose up -d"
+      }
+    }
+
+    stage('Composer') {
+      steps {
+        // https://github.com/docker/compose/issues/5696
+        sh "docker-compose exec -T php composer install"
+      }
+    }
+
+    stage('Test: Static Analysis') {
+      steps {
+         // @TODO: static analysis
+      }
+    }
+
+    stage('Test: Unit') {
+      steps {
+         // @TODO: unit tests.
+      }
+    }
+
+    stage('Database sync') {
+      steps {
+        // Fill empty database with current database.
+      }
+    }
+
+    stage('Drush: config setup') {
+      steps {
+        // Drush cim, updb...
+      }
+    }
+
+
+    stage('Test: Behat') {
+      steps {
+        script {
+          LAST_STAGE = env.STAGE_NAME
+        }
+
+        sh "docker-compose exec -u www-data -T php vendor/bin/behat --config tests/behat/behat.yml --colors ~@sunnyday&&~@behat"
+
+        // Read results:
+        junit allowEmptyResults: true, testResults: 'reports/behat/junit/*.xml'
+
+      }
+    }
+  }
+
+  post {
+    always {
+        sh "docker-compose down"
+        // Workspace cleanup.
+        // Jenkins artifacts
+    }
+    success {
+      echo 'success'
+    
+    }
+    failure {
+      echo 'failure'
+    }
+    unstable {
+      echo 'unstable'
+    }
+    changed {
+      echo 'changed'
+    }
+  }
+
+}
