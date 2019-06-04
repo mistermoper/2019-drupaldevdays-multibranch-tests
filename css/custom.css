@@ -136,3 +136,20 @@ ol li:before {
     counter-increment: item;
     color: #fcb02a;
 }
+
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.width-200 {
+  width: 200px
+}
+.width-300 {
+  width: 300px
+}
+.width-400 {
+  width: 400px
+}

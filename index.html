@@ -6,6 +6,7 @@
 
 		<title>Multibranch tests with Drupal , Jenkins and Docker | DrupalDevDays 2019</title>
 
+		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/white.css">
 		<link rel="stylesheet" href="css/custom.css">
@@ -98,7 +99,7 @@
 
 				<section data-background="assets/images/background-secondary.png" data-background-image="assets/images/background-secondary.png" class="present" style="top: 253px; display: block;">
 					<h2>But should I have to run all these tests manually?</h2>
-					<img src="assets/images/blank-2022544_960_720.png" style="width:300px">
+					<img src="assets/images/blank-2022544_960_720.png" class="width-300">
 				</section>
 
 
@@ -110,7 +111,7 @@
 				<section data-background="assets/images/background-secondary.png" data-background-image="assets/images/background-secondary.png" class="present" style="top: 253px; display: block;">
 					<h2>Parallel testing</h2>
 					<img src="assets/images/parallel-testing.png">
-					<img src="assets/images/docker.png">
+					<img class="fragment fade-in" src="assets/images/docker.png">
 				</section>
 
 				<section data-background="assets/images/background-secondary.png" data-background-image="assets/images/background-secondary.png" class="present" style="top: 253px; display: block;">
@@ -160,155 +161,213 @@
 					<img src="assets/images/notified.jpg">
 				</section>
 
+				<section data-background="assets/images/background-secondary.png" data-background-image="assets/images/background-secondary.png" class="present" style="top: 253px; display: block;">
+					<em>Third</em>
+					<h2>How to Jenkins multibranch</h2>
+				</section>
 
 				<section>
-					<p class="medium left"><em>Basic concepts</em></p>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="bold big center"><em>Which tools do we need?</em></p>
+					<div class="requirements container">
+						<div class="fragment fade-in docker">
+							<div>
+								<img src="assets/images/docker.png">
+							</div>
+							<ol class="small">
+								<li>Docker</li>
+								<li>Docker compose</li>
+							</ol>
+						</div>
+						<div class="fragment fade-in jenkins">
+							<div>
+								<img src="assets/images/Jenkins_8.png">
+							</div>
+							<ol class="small">
+								<li>Jenkins job</li>
+							</ol>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
 					<ol>
-						<li>Jenkins: open source automation server.</li>
-						<li>Job: automated task.</li>
-						<li>Docker: software to create applications inside containers in one package.</li>
-						<li>Docker compose: docker container configuration written in yml files.</li>
+						<li class="small left">Develop a docker infraestructure for drupal</p>
+						<li class="small left">Create Jenkins pipeline</p>
+						<li class="small left">Create Jenkins multibranch job</p>
 					</ol>
+				</section>
+
+				<section>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="small left">Develop a docker infraestructure for drupal</p>
+					<div class="container">
+						<img class="width-400" src="assets/images/php.jpg">
+						<img class="width-400" src="assets/images/mariadb.png">
+						<img class="width-300" src="assets/images/nginx.png">
+					</div>
+					<p class="left">Example: <a class="left" href="https://github.com/wodby/docker4drupal">Docker4Drupal</a></p>
+				</section>
+
+				<section>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="medium left"><em>Create Jenkins multibranch job</em></p>
+					<ul>
+						<li>Pipeline job code-written</li>
+						<li>Committed in repository</li>
+					</ul>
+					<img src="assets/images/what-to-test-jenkins.jpg">
+					<div>
+						<a href="https://jenkins.io/doc/book/pipeline/" target="_blank">Source</a>
+					</div>
+				</section>
+
+				<section>
+					<blockquote>Talk is cheap. Show me the code</blockquote>
+					<img title="Talk is cheap. Show me the code" alt="Talk is cheap. Show me the code" class="width-200" src="assets/images/boy-2022559_960_720.png">
+				</section>
+
+				<section>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="medium left"><em>Create Jenkins multibranch job: Skeleton</em></p>
+					<pre><code class="small groovy hljs">pipeline {
+    agent any
+    stages {
+        stage('Docker start') { ... }
+        stage('Composer') { ... }
+        stage('Static Analysis') { ... }
+        stage('Unit tests') { ... }
+        stage('Database sync') { ... }
+        stage('Functional tests') { ... }
+    }
+    post { ... }
+}</code></pre>
+				<img src="assets/graphs/how-to/pipeline-skeleton.png">
+				</section>
+
+				<section>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="medium left"><em>Create Jenkins multibranch job: Docker start</em></p>
+					<pre><code class="small groovy hljs has-highlights" data-trim data-line-numbers="4-6">pipeline {
+    agent any
+    stages {
+        stage('Docker start') {
+            sh "docker-compose up -d"	
+        }
+    }
+}</code></pre>
+
+				<img src="assets/graphs/how-to/pipeline-setup-environment.png">
 				</section>
 				
 				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Why Jenkins and Docker?</li>
-					</ol>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="medium left"><em>Create Jenkins multibranch job: Composer</em></p>
+					<pre><code class="small groovy hljs" data-trim data-line-numbers="5-7">pipeline {
+    agent any
+    stages {
+        stage('Docker start') { ... }
+        stage('Composer') {
+            sh "docker-compose exec php -T composer install"
+        }
+    }
+}</code></pre>
+				<img src="assets/graphs/how-to/pipeline-setup-environment.png">
+</section>
+
+				<section>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="medium left"><em>Creating Jenkinsfile: Static analysis</em></p>
+					<pre><code class="small groovy hljs" data-trim data-line-numbers="6-9">pipeline {
+    agent any
+    stages {
+        stage('Docker start') { ... }
+        stage('Composer') { ... }
+        stage('Static Analysis') {
+          sh "docker-compose exec php -T 
+            ./vendor/bin/phpcs --standard=Drupal,DrupalPractice"
+        }
+    }
+}</code></pre>
+				<img src="assets/graphs/how-to/pipeline-static-analysis.png">
 				</section>
 
 				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Why Jenkins and Docker?</li>
-						<li>Develop a docker infraestructure for drupal</li>
-					</ol>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="medium left"><em>Creating Jenkinsfile: Unit tests</em></p>
+					<pre><code class="small groovy hljs" data-trim data-line-numbers="7-10">pipeline {
+    agent any
+    stages {
+        stage('Docker start') { ... }
+        stage('Composer') { ... }
+        stage('Static Analysis') { ... }
+        stage('Unit tests') {
+          sh "docker-compose exec php -T 
+            ./vendor/bin/phpunit -c phpunit.xml"
+        }
+    }
+}</code></pre>
+				<img src="assets/graphs/how-to/pipeline-unit-tests.png">
 				</section>
 
 				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Why Jenkins and Docker?</li>
-						<li>Develop a docker infraestructure for drupal:
-							<ul>
-								<li><a href="https://github.com/wodby/docker4drupal">Docker4Drupal</a></li>
-								<li>Website: php, apache, mysql</li>
-							</ul>
-						</li>
-					</ol>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="medium left"><em>Creating Jenkinsfile: Database sync</em></p>
+					<pre><code class="small groovy hljs" data-line-numbers="8-11">pipeline {
+    agent any
+    stages {
+        stage('Docker start') { ... }
+        stage('Composer') { ... }
+        stage('Static Analysis') { ... }
+        stage('Unit tests') { ... }
+        stage('Database sync') {
+          sh "docker-compose exec php -T 
+            drush @my-environment sql-sync"
+        }
+    }
+}</code></pre>
+				<img src="assets/graphs/how-to/pipeline-database-sync.png">
 				</section>
 
 				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Why Jenkins and Docker?</li>
-						<li>Develop a docker infraestructure for drupal:
-							<ul>
-								<li><a href="https://github.com/wodby/docker4drupal">Docker4Drupal</a></li>
-								<li>Website: php, apache, mysql</li>
-							</ul>
-						</li>
-					</ol>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="medium left"><em>Creating Jenkinsfile: Functional tests</em></p>
+					<pre><code class="small groovy hljs" data-line-numbers="9-12">pipeline {
+    agent any
+    stages {
+        stage('Docker start') { ... }
+        stage('Composer') { ... }
+        stage('Static Analysis') { ... }
+        stage('Unit tests') { ... }
+        stage('Database sync') { ... }
+        stage('Functional tests') {
+          sh "docker-compose exec php -T 
+            vendor/bin/behat --config tests/behat/behat.yml"
+        }
+    }
+}</code></pre>
+				<img src="assets/graphs/how-to/pipeline-functional-tests.png">
 				</section>
 
 				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Develop a docker infraestructure for drupal:
-							<ul>
-								<li><a href="https://github.com/wodby/docker4drupal">Docker4Drupal</a></li>
-								<li>Website: php, apache, mysql</li>
-								<li>Build tools: <a href="https://github.com/wodby/node">node to build theming assets.</a></li>
-								<!-- @NOTE: recommend stretch version !-->
-							</ul>
-						</li>
-					</ol>
-				</section>
-
-				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Install the jenkins plugins required for multibranch:
-							<ul>
-								<li><a href="https://wiki.jenkins.io/display/JENKINS/Pipeline+Plugin">Pipeline</a></li>
-								<li><a href="https://wiki.jenkins.io/display/JENKINS/Pipeline+Multibranch+Plugin">Pipeline multibranch</li>
-							</ul>
-						</li>
-					</ol>
-				</section>
-
-				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Another Jenkins plugins:
-							<ul>
-								<li><a href="https://jenkinsci.github.io/job-dsl-plugin/">JobDSL</a></li>
-								<!-- @TODO Jobdsl image. -->
-							</ul>
-						</li>
-					</ol>
-				</section>
-
-				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Another Jenkins plugins:
-							<ul>
-								<li><a href="https://jenkinsci.github.io/job-dsl-plugin/">JobDSL</a></li>
-								<li><a href="https://github.com/jenkinsci/bitbucket-build-status-notifier-plugin">Bitbucket status notifier</a> / <a href="https://github.com/jenkinsci/gitlab-plugin">Gitlab plugin</a></li>
-								<!-- @TODO Show metadrop commits and build status. -->
-							</ul>
-						</li>
-					</ol>
-				</section>
-
-
-				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Another Jenkins plugins:
-							<ul>
-								<li><a href="https://jenkinsci.github.io/job-dsl-plugin/">JobDSL</a></li>
-								<li><a href="https://github.com/jenkinsci/bitbucket-build-status-notifier-plugin">Bitbucket status notifier</a> / <a href="https://github.com/jenkinsci/gitlab-plugin">Gitlab plugin</a></li>
-								<li><a href="https://wiki.jenkins.io/display/JENKINS/Slack+Plugin">Slack integration</a></li>
-								<!-- @TODO Show metadrop channel (only messages and the build status message. -->
-							</ul>
-						</li>
-					</ol>
-				</section>
-
-				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Create the Jenkinsfile</li>
-					</ol>
-				</section>
-
-				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Create the Jenkinsfile</li>
-						<li>Create the job</li>
-					</ol>
-				</section>
-
-				<section>
-					<p class="medium left"><em>Let's see a demo!</em></p>
-				</section>
-
-				<section>
-					<p class="xsmall left"><em>How to build with Jenkins and Docker</em></p>
-					<ol>
-						<li>Create the Jenkinsfile</li>
-						<li>Create the job</li>
-						<li>Alternative: jobdsl</li>
-					</ol>
-				</section>
-
-
-				<section>
-					<p class="medium left"><em>Let's see a demo!</em></p>
+					<p class="medium left"><em>How to Jenkins multibranch</em></p>
+					<p class="medium left"><em>Creating Jenkinsfile: Post steps</em></p>
+					<pre><code class="small groovy hljs" data-line-numbers="4-12">pipeline {
+    agent any
+    stages { ... }
+    post {
+      allways {
+        sh "docker-compose down"
+      }
+      success {
+        slackSend color: "${slack_color}", 
+          channel: "#myproject",
+          message: "Sucessful tests."
+      }
+    }
+}</code></pre>
+				<img src="assets/graphs/how-to/pipeline-post.png">
 				</section>
 
 				<section>
@@ -399,7 +458,7 @@
 
 				<section data-background="assets/images/background-secondary.png" data-background-image="assets/images/background-secondary.png" class="present" style="top: 253px; display: block;">
 					<em>Fourth</em>
-					<h2>How to build with Jenkins and Docker</h2>
+					<h2>How to Jenkins multibranch</h2>
 				</section>
 
 				<section data-background="assets/images/background-primary.png">
@@ -419,15 +478,24 @@
 		<script src="js/reveal.js"></script>
 
 		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
+
+			// More info https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
 				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
 		</script>
