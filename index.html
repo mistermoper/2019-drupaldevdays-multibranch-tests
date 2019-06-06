@@ -329,7 +329,7 @@
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
 					<p class="medium left"><em>Creating Jenkinsfile: Database sync</em></p>
 					<div class="container">
-					<pre><code class="small groovy hljs" data-line-numbers="8-11">pipeline {
+					<pre><code class="small groovy hljs" data-line-numbers="8-12">pipeline {
     agent any
     stages {
         stage('Docker start') { ... }
@@ -338,7 +338,8 @@
         stage('Unit tests') { ... }
         stage('Database sync') {
           sh "docker-compose exec php -T 
-            drush @my-environment sql-sync"
+            drush @my-environment sql:sync"
+            // drush updb, cim, cr..
         }
     }
 }</code></pre>
