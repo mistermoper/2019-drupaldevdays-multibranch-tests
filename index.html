@@ -174,18 +174,18 @@
 							<div>
 								<img src="assets/images/docker.png">
 							</div>
-							<ol class="small">
+							<ul class="small">
 								<li>Docker</li>
 								<li>Docker compose</li>
-							</ol>
+							</ul>
 						</div>
 						<div class="fragment fade-in jenkins">
 							<div>
 								<img src="assets/images/Jenkins_8.png">
 							</div>
-							<ol class="small">
+							<ul class="small">
 								<li>Jenkins job</li>
-							</ol>
+							</ul>
 						</div>
 					</div>
 				</section>
@@ -196,7 +196,7 @@
 					<ol>
 						<li class="small left">Develop a docker infraestructure for drupal</p>
 						<li class="small left">Create Jenkins pipeline</p>
-						<li class="small left">Create Jenkins multibranch job</p>
+						<li class="small left">Create Jenkins multibranch pipeline job</p>
 					</ol>
 
 						<img src="assets/images/building-blocks.png" class="width-300">
@@ -216,7 +216,7 @@
 
 				<section>
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
-					<p class="medium left"><em>Create Jenkins multibranch job</em></p>
+					<p class="medium left"><em>Create Jenkins multibranch pipeline job</em></p>
 					<ul>
 						<li>Pipeline job code-written</li>
 						<li>Committed in repository</li>
@@ -234,7 +234,7 @@
 
 				<section>
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
-					<p class="medium left"><em>Create Jenkins multibranch job: Skeleton</em></p>
+					<p class="medium left"><em>Create Jenkins multibranch pipeline job: Skeleton</em></p>
 					<div class="container">
 					<pre><code class="small groovy hljs">pipeline {
     agent any
@@ -254,7 +254,7 @@
 
 				<section>
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
-					<p class="medium left"><em>Create Jenkins multibranch job: Docker start</em></p>
+					<p class="medium left"><em>Create Jenkins multibranch pipeline job: Docker start</em></p>
 					<div class="container">
 					<pre><code class="small groovy hljs has-highlights" data-trim data-line-numbers="4-6">pipeline {
     agent any
@@ -271,7 +271,7 @@
 				
 				<section>
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
-					<p class="medium left"><em>Create Jenkins multibranch job: Composer</em></p>
+					<p class="medium left"><em>Create Jenkins multibranch pipeline job: Composer</em></p>
 					<div class="container">
 					<pre><code class="small groovy hljs" data-trim data-line-numbers="5-7">pipeline {
     agent any
