@@ -145,6 +145,12 @@
 
 				<section>
 					<p class="medium left"><em>Jenkins multibranch testing example</em></p>
+					<p class="xsmall left"><em>Notification</em></p>
+					<img src="assets/images/notified.jpg">
+				</section>
+
+				<section>
+					<p class="medium left"><em>Jenkins multibranch testing example</em></p>
 					<p class="xsmall left"><em>Code static analysis</em></p>
 					<img src="assets/images/checkstyle-warnings.jpg">
 				</section>
@@ -153,12 +159,6 @@
 					<p class="medium left"><em>Jenkins multibranch testing example</em></p>
 					<p class="xsmall left"><em>Test results (junit)</em></p>
 					<img src="assets/images/test-result.jpg">
-				</section>
-
-				<section>
-					<p class="medium left"><em>Jenkins multibranch testing example</em></p>
-					<p class="xsmall left"><em>Notification</em></p>
-					<img src="assets/images/notified.jpg">
 				</section>
 
 				<section data-background="assets/images/background-secondary.png" data-background-image="assets/images/background-secondary.png" class="present" style="top: 253px; display: block;">
@@ -339,7 +339,7 @@
         stage('Database sync') {
           sh "docker-compose exec php -T 
             drush @my-environment sql:sync"
-            // drush updb, cim, cr..
+            // drush updb, cim, cr, file sync..
         }
     }
 }</code></pre>
@@ -351,7 +351,7 @@
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
 					<p class="medium left"><em>Creating Jenkinsfile: Functional tests</em></p>
 					<div class="container">
-					<pre><code class="small groovy hljs" data-line-numbers="9-12">pipeline {
+					<pre><code class="small groovy hljs" data-line-numbers="9-13">pipeline {
     agent any
     stages {
         stage('Docker start') { ... }
@@ -362,6 +362,7 @@
         stage('Functional tests') {
           sh "docker-compose exec php -T 
             vendor/bin/behat --config tests/behat/behat.yml"
+          junit allowEmptyResults: true, testResults: "reports/behat.xml"
         }
     }
 }</code></pre>
@@ -373,7 +374,7 @@
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
 					<p class="medium left"><em>Creating Jenkinsfile: Post steps</em></p>
 					<div class="container">
-					<pre><code class="small groovy hljs" data-line-numbers="4-12">pipeline {
+					<pre><code class="small groovy hljs" data-line-numbers="4-13">pipeline {
     agent any
     stages { ... }
     post {
@@ -381,7 +382,7 @@
         sh "docker-compose down"
       }
       success {
-        slackSend color: "${slack_color}", 
+        slackSend color: "#00FF00", 
           channel: "#myproject",
           message: "Sucessful tests."
       }
@@ -439,8 +440,10 @@
 					<p class="medium left"><em>What more can we do?</em></p>
 					<ul>
 						<li>Rest services: Postman tests automated with newman</li>
-						<img class="width-300 center" src="assets/images/postman.png">
 					</ul>
+					<div class="center">
+						<img class="width-300 center" src="assets/images/postman.png">
+					</div>
 				</section>
 
 				<section>
