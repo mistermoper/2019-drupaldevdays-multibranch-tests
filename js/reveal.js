@@ -5212,7 +5212,7 @@
 				navigateNext();
 			}
 			// H, LEFT
-			else if( keyCode === 72 || keyCode === 37 ) {
+			else if( keyCode === 72 || keyCode === 37 || keyCode == 40) {
 				if( firstSlideShortcut ) {
 					slide( 0 );
 				}
@@ -5224,7 +5224,7 @@
 				}
 			}
 			// L, RIGHT
-			else if( keyCode === 76 || keyCode === 39 ) {
+			else if( keyCode === 76 || keyCode === 39  || keyCode === 38) {
 				if( lastSlideShortcut ) {
 					slide( Number.MAX_VALUE );
 				}
