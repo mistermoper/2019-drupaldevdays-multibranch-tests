@@ -377,7 +377,7 @@
     agent any
     stages { ... }
     post {
-      allways {
+      always {
         sh "docker-compose down"
       }
       success {
