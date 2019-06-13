@@ -1,7 +1,7 @@
-def LAST_STAGE
+// Agent can be any (own jenkins server, a jenkins slave, a specific platform, etc).
+agent any
 
 pipeline {
-  agent any
 
   options {
     disableConcurrentBuilds()
@@ -50,14 +50,8 @@ pipeline {
 
     stage('Test: Behat') {
       steps {
-        script {
-          LAST_STAGE = env.STAGE_NAME
-        }
 
-        sh "docker-compose exec -u www-data -T php vendor/bin/behat --config tests/behat/behat.yml --colors ~@sunnyday&&~@behat"
-
-        // Read results:
-        junit allowEmptyResults: true, testResults: 'reports/behat/junit/*.xml'
+        sh "docker-compose exec -u www-data -T php vendor/bin/behat --config tests/behat/behat.yml --colors"
 
       }
     }
