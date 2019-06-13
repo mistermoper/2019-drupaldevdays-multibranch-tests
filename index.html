@@ -339,7 +339,7 @@
         stage('Unit tests') { ... }
         stage('Database sync') {
           sh "drush @my-environment sql:sync"
-          // drush updb, cim, cr, file sync..
+          // sanitize, updb, cim, cr, file sync..
         }
     }
 }</code></pre>
