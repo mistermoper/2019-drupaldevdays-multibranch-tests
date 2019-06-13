@@ -77,6 +77,7 @@
 
 
 				<section data-background="assets/images/background-secondary.png" data-background-image="assets/images/background-secondary.png" class="present" style="top: 253px; display: block;">
+					<em>First</em>
 					<h2>Why multibranch testing</h2>
 				</section>
 
@@ -328,7 +329,7 @@
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
 					<p class="medium left"><em>Creating Jenkinsfile: Database sync</em></p>
 					<div class="container">
-					<pre><code class="small groovy hljs" data-line-numbers="8-12">pipeline {
+					<pre><code class="small groovy hljs" data-line-numbers="8-11">pipeline {
     agent any
     stages {
         stage('Docker start') { ... }
@@ -336,9 +337,8 @@
         stage('Static Analysis') { ... }
         stage('Unit tests') { ... }
         stage('Database sync') {
-          sh "docker-compose exec php -T 
-            drush @my-environment sql:sync"
-            // drush updb, cim, cr, file sync..
+          sh "drush @my-environment sql:sync"
+          // drush updb, cim, cr, file sync..
         }
     }
 }</code></pre>
@@ -350,7 +350,7 @@
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
 					<p class="medium left"><em>Creating Jenkinsfile: Functional tests</em></p>
 					<div class="container">
-					<pre><code class="small groovy hljs" data-line-numbers="9-13">pipeline {
+					<pre><code class="small groovy hljs" data-line-numbers="9-12">pipeline {
     agent any
     stages {
         stage('Docker start') { ... }
@@ -361,7 +361,6 @@
         stage('Functional tests') {
           sh "docker-compose exec php -T 
             vendor/bin/behat --config tests/behat/behat.yml"
-          junit allowEmptyResults: true, testResults: "reports/behat.xml"
         }
     }
 }</code></pre>
@@ -373,7 +372,7 @@
 					<p class="medium left"><em>How to Jenkins multibranch</em></p>
 					<p class="medium left"><em>Creating Jenkinsfile: Post steps</em></p>
 					<div class="container">
-					<pre><code class="small groovy hljs" data-line-numbers="4-13">pipeline {
+					<pre><code class="small groovy hljs" data-line-numbers="4-15">pipeline {
     agent any
     stages { ... }
     post {
@@ -383,8 +382,10 @@
       success {
         slackSend color: "#00FF00", 
           channel: "#myproject",
-          message: "Sucessful tests."
+          message: "Tests passes, hurray!"
       }
+      failure { ... }
+      changed { ... }
     }
 }</code></pre>
 				<img src="assets/graphs/how-to/pipeline-post.png">
